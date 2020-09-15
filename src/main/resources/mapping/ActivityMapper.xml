@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.japhone.demo.mapper.ActivityMapper">
+    <resultMap id="BaseResultMap" type="com.japhone.demo.model.entity.Activity">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sku_id" property="skuId" />
+        <result column="discount" property="discount" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sku_id, discount
+    </sql>
+
+    <select id="queryActivity" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+        where sku_id in
+        <foreach collection="skuIds" item="skuId" open="("
+                 separator="," close=")">
+            #{skuId}
+        </foreach>
+    </select>
+</mapper>

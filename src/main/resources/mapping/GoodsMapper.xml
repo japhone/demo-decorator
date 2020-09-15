@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.japhone.demo.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.japhone.demo.model.entity.Goods">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sku_id" property="skuId" />
+        <result column="price" property="price" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, sku_id, price
+    </sql>
+
+    <select id="queryBySkuIdList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods
+        where sku_id in
+        <foreach collection="skuIdList" item="skuId" open="("
+                 separator="," close=")">
+            #{skuId}
+        </foreach>
+    </select>
+</mapper>

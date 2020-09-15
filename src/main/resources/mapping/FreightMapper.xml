@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.japhone.demo.mapper.FreightMapper">
+    <resultMap id="BaseResultMap" type="com.japhone.demo.model.entity.Freight">
+        <id column="id" property="id" />
+        <result column="freight_template_id" property="freightTemplateId" />
+        <result column="sku_id" property="skuId" />
+        <result column="freight" property="freight" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, freight_template_id, sku_id, freight
+    </sql>
+
+    <select id="getFreight" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from freight
+        where country_code=#{address.countryCode} and sku_id in
+        <foreach collection="skuIdList" item="skuId" open="("
+                 separator="," close=")">
+            #{skuId}
+        </foreach>
+    </select>
+</mapper>
